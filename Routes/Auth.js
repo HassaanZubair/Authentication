@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 
 // Register
 router.post('/register', async (req, res) => {
-    const { name, email, password } = req.body;
+    const { username, email, password } = req.body;
     const client = req.app.locals.db;
     try {
         const userCheck = await client.query('SELECT * FROM users WHERE email = $1', [email]);
@@ -17,7 +17,7 @@ router.post('/register', async (req, res) => {
 
         await client.query(
             'INSERT INTO users (username, email, password) VALUES ($1, $2, $3)',
-            [name, email, hashedPassword]
+            [username, email, hashedPassword]
         );
 
         res.status(201).json({ message: 'User registered successfully' });
